@@ -5,7 +5,6 @@ from aiohttp import web
 import asyncio
 
 from manager import create_app
-from manager.settings import load_config
 
 try:
     import uvloop

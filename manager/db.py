@@ -25,5 +25,5 @@ links = Table(
 )
 
 
-# engine = create_engine(os.environ.get('DATABASE_URL'))
-# meta.create_all(engine)
+engine = create_engine(os.environ.get("DATABASE_URL"))
+meta.create_all(engine)
