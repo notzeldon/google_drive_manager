@@ -30,8 +30,9 @@ if args.reload:
     aioreloader.start()
 
 if __name__ == '__main__':
-    # ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    # ssl_context.load_cert_chain('domain_srv.crt', 'domain_srv.key')
+    def run():
+        # ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+        # ssl_context.load_cert_chain('domain_srv.crt', 'domain_srv.key')
 
-    web.run_app(app, host=args.host, port=args.port)
+        web.run_app(app, host=args.host, port=args.port)
 
