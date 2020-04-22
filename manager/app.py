@@ -14,7 +14,7 @@ from .middlewares import authorize_middleware
 from .routes import setup_routes
 
 
-async def create_app(config: dict or None = None):
+async def create_app(config = None):
 
     fernet_key = fernet.Fernet.generate_key()
     secret_key = base64.urlsafe_b64decode(fernet_key)
