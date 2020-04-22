@@ -1,1 +1,1 @@
-web: gunicorn entry --config config/gunicorn.conf
+web: gunicorn web:entry --config config/gunicorn.conf
