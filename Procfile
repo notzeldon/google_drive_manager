@@ -1,1 +1,1 @@
-web: python entry.py
+web: gunicorn entry --bind localhost:80 --worker-class aiohttp.GunicornWebWorker
