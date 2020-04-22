@@ -1,1 +1,1 @@
-web: gunicorn web:create_app --config config/gunicorn.conf --noauth_local_webserver
+web: gunicorn web:create_app --config config/gunicorn.conf
