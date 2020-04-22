@@ -1,7 +1,4 @@
 # Default config file
 
 site_name: 'Manager site'
-
-database_url: postgresql://postgres:postgres@localhost:5432/manager
-
 tmp_dir: '/var/tmp/manager/'

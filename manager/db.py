@@ -1,3 +1,5 @@
+import os
+
 from sqlalchemy import (
     Table, Text, Integer, VARCHAR, MetaData, Column,
     ForeignKey, String, create_engine)
@@ -23,5 +25,5 @@ links = Table(
 )
 
 
-engine = create_engine('postgresql://postgres:postgres@localhost:5432/manager')
+engine = create_engine(os.environ.get('DATABASE_URL'))
 meta.create_all(engine)
