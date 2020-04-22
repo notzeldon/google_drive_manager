@@ -38,8 +38,7 @@ async def create_app(config: dict):
 
 
 async def on_start(app):
-    config = app['config']
-    app['db'] = await asyncpgsa.create_pool(dsn=os.environ.get('USER'))
+    app['db'] = await asyncpgsa.create_pool(dsn=os.environ.get('DATABASE_URL'))
 
 
 async def on_shutdown(app):
