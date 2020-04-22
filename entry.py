@@ -15,7 +15,7 @@ except ImportError:
 
 parser = argparse.ArgumentParser(description='Manager project')
 parser.add_argument('--host', help='Host to listen', default='0.0.0.0')
-parser.add_argument('--port', help='Port to accept connections', default=80)
+parser.add_argument('--port', help='Port to accept connections', default=8080)
 parser.add_argument('--reload', action='store_true', help='Autoreload code on change')
 parser.add_argument('-c', '--config', type=argparse.FileType('r'), help='Path to config file')
 
