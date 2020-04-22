@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Register form</h1>
+
+    <form id="register">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="password2">Repeat password</label>
+            <input type="password" name="password2" class="form-control" id="password2" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+{% endblock %}
+
+
+{% block extra_js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var
+                form = $('form#register'),
+                btn = form.find('.btn');
+
+            btn.click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+               var
+                   email = form.find('#email').val(),
+                   password = form.find('#password').val(),
+                   password2 = form.find('#password2').val();
+
+               if (!email || !password || !password2) {
+                   alert('All fields are required');
+
+               }
+               else if (password !== password2) {
+                   alert('Passwords do not match')
+               }
+               else {
+                   $.ajax({
+                       method: 'POST',
+                       url: '/api/user/register',
+                       data: {
+                           email: email,
+                           password: password,
+                       },
+                       success: function (data) {
+                           alert('You are registered');
+                           window.location = '/login'
+                       },
+                       error: function (data) {
+                           alert(data.responseJSON.error);
+                       }
+                   })
+               }
+
+            });
+
+        });
+    </script>
+{% endblock %}

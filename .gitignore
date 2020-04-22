@@ -1,0 +1,4 @@
+.idea
+*.sqlite*
+client_id.json
+credentials.json

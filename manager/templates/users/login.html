@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Login form</h1>
+
+    <form id="login">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+{% endblock %}
+
+
+{% block extra_js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var
+                form = $('form#login'),
+                btn = form.find('.btn');
+
+            btn.click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+               var
+                   email = form.find('#email').val(),
+                   password = form.find('#password').val();
+
+               if (!email || !password) {
+                   alert('All fields are required');
+               }
+               else {
+                   $.ajax({
+                       method: 'POST',
+                       url: '/api/user/auth',
+                       data: {
+                           email: email,
+                           password: password,
+                       },
+                       success: function (data) {
+                           alert('You was login');
+                           window.location = '/panel'
+                       },
+                       error: function (data) {
+                           alert(data.responseJSON.error);
+                       }
+                   })
+               }
+
+            });
+
+        });
+    </script>
+{% endblock %}

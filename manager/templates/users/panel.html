@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>User panel</h1>
+    <hr>
+
+    You can manage your account
+    <button class="btn btn-primary btn-logout">
+        Log out
+    </button>
+    ,
+    <button class="btn btn-warning btn-change-password" type="button" data-toggle="modal" data-target="#change-password-modal">
+        Change password
+    </button>
+    or
+    <button class="btn btn-danger btn-delete-account">
+        Delete account
+    </button>
+    <hr>
+
+    <h2>
+        Your links
+    </h2>
+
+    You can also <button class="btn btn-primary btn-add-link" type="button" data-toggle="modal" data-target="#add-link-modal">add new link</button>
+    or <button class="btn btn-success btn-download-all">download all files</button>
+    <hr>
+
+    <div id="link-list">
+        <div class="empty">
+            Has no links
+        </div>
+        <div class="links">
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="add-link-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add new link</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="form">
+                        <input style="width: 100%" type="text" name="link" placeholder="Link to google drive shared file">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="change-password-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2">Change password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="form">
+                        <div class="form-group">
+                            <label for="">Old password</label>
+                            <input style="width: 100%" type="password" name="old_password" placeholder="Old password">
+                        </div>
+                        <div class="form-group">
+                            <label for="">New password</label>
+                            <input style="width: 100%" type="password" name="password" placeholder="New password">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Repeat new password</label>
+                            <input style="width: 100%" type="password" name="password2" placeholder="Repeat new password">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Change</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var
+                logoutBtn = $('.btn-logout'),
+                deleteAccountBtn = $('.btn-delete-account'),
+                downloadFilesBtn = $('.btn-download-all'),
+                addLinkModal = $('#add-link-modal'),
+                changePasswordModal = $('#change-password-modal'),
+
+                currentPage = '/api/links',
+                linkList = $('#link-list');
+            ;
+
+            logoutBtn.click(function () {
+                $.get('/api/user/logout', function(data) {
+                    window.location.reload();
+                });
+            });
+
+            deleteAccountBtn.click(function () {
+                if (confirm('Delete accout? Sure?')) {
+                    $.get('/api/user/delete', function(data) {
+                        window.location.reload();
+                    });
+                }
+            });
+
+            downloadFilesBtn.click(function () {
+                window.location = '/api/links/download';
+            });
+
+            addLinkModal.find('.btn.btn-primary').click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var link = addLinkModal.find('form input[name="link"]').val();
+
+
+                if (link) {
+                    $.ajax({
+                        url: '/api/links/add',
+                        method: 'POST',
+                        data: {
+                            link: link
+                        },
+                        success: function (data) {
+                            addLinkModal.modal('hide');
+                            updateLinks();
+                        },
+                        error: function (e) {
+                            alert(e.responseJSON.error);
+                        }
+                    })
+                }
+            });
+
+
+            changePasswordModal.find('.btn.btn-primary').click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var
+                    old_password = changePasswordModal.find('form input[name="old_password"]').val(),
+                    password = changePasswordModal.find('form input[name="password"]').val(),
+                    password2 = changePasswordModal.find('form input[name="password2"]').val()
+                ;
+
+
+                $.ajax({
+                    url: '/api/user/change-password',
+                    method: 'POST',
+                    data: {
+                        old_password: old_password,
+                        password: password,
+                        password2: password2,
+                    },
+                    success: function (data) {
+                        changePasswordModal.modal('hide');
+                    },
+                    error: function (e) {
+                        alert(e.responseJSON.error);
+                    }
+                })
+            });
+
+            linkList.on('click', 'button', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var btn = $(e.target);
+
+                if (btn.hasClass('btn-success')) {
+                    window.location = e.target.dataset.href;
+                }
+                else if (btn.hasClass('btn-danger')) {
+                    if (confirm('Are you really want to delete this file?')) {
+                        $.get(e.target.dataset.href, function () {
+                            updateLinks();
+                        });
+                    }
+                }
+            });
+
+            function updateLinks(link) {
+                var url = !!link ? link : currentPage;
+
+                $.get(url, function (data) {
+                    currentPage = url;
+
+
+                    var paginator = '';
+                    if (data.prev) {
+                        paginator += '<button class="btn btn-primary" data-href="' + data.prev + '">Previous page</button>'
+                    }
+                    if (data.next) {
+                        paginator += '<button class="btn btn-primary" data-href="' + data['next'] + '">NExt page</button>'
+                    }
+
+                    content = '';
+
+                    if (data.files.length) {
+                        content += '<table class="table">';
+                        for (var i = 0; i < data.files.length; i++) {
+                            var file = data.files[i];
+                            content += '' +
+                                '<tr>' +
+                                '<td>' + file.title + '</td>' +
+                                '<td width="1%"><button data-href="' + file.download_link + '" class="btn btn-success">Download</button></td>' +
+                                '<td width="1%"><button data-href="' + file.delete_link + '" class="btn btn-danger">Delete</button></td>' +
+                                '</tr>';
+                        }
+                        content += "</table>" + paginator;
+
+                        linkList.find('.links').html(content).show();
+                        linkList.find('.empty').hide();
+                    }
+                    else {
+                        linkList.find('.list').hide();
+                        linkList.find('.empty').show();
+                    }
+
+                })
+            }
+
+            updateLinks();
+        });
+    </script>
+{% endblock %}

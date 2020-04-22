@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>
+        The main of {{ site_name }}
+    </h1>
+    <hr>
+
+    Welcome to this test site, {% if user_id %}User #{{ user_id }}{% else %}Anominous user{% endif %}
+
+    <hr>
+
+    Register and login for test this project. Please use navbar
+
+{% endblock %}
