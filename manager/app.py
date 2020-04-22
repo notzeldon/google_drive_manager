@@ -14,7 +14,7 @@ from .middlewares import authorize_middleware
 from .routes import setup_routes
 
 
-async def create_app(config: dict):
+async def create_app(config: dict or None):
 
     fernet_key = fernet.Fernet.generate_key()
     secret_key = base64.urlsafe_b64decode(fernet_key)
@@ -24,8 +24,7 @@ async def create_app(config: dict):
         authorize_middleware,
     ])
 
-
-    app['config'] = config
+    app['config'] = config or dict()
     aiohttp_jinja2.setup(
         app,
         loader=jinja2.PackageLoader('manager', 'templates'),
