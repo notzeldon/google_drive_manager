@@ -8,8 +8,6 @@ async def index(request):
     return {}
 
 
-
-
 class Register(web.View):
 
     @template('users/register.html')
