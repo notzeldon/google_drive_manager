@@ -1,1 +1,1 @@
-web: gunicorn entry:run --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
+web: gunicorn entry --config config/gunicorn.conf
