@@ -1,1 +1,1 @@
-web: gunicorn web:app --config config/gunicorn.conf
+web: gunicorn web:create_app --config config/gunicorn.conf

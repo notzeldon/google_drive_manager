@@ -1,4 +1,5 @@
 # import argparse
+import os
 
 from aiohttp import web
 import asyncio
@@ -22,8 +23,8 @@ except ImportError:
 
 # args = parser.parse_args()
 
-app = await create_app()
+app = create_app()
 
 if __name__ == '__main__':
-    web.run_app(app, host='0.0.0.0', port=8080)
+    web.run_app(app, host=os.environ.get('HOST'), port=os.environ.get('PORT'))
 
