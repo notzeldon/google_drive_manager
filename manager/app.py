@@ -14,6 +14,12 @@ from .middlewares import authorize_middleware
 from .routes import setup_routes
 
 
+import argparse
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--noauth_local_webserver', action='store_true',
+                    default=False, help='Do not run a local web server.')
+
+
 async def create_app(config=None):
 
     secret_key = b'3d\xa9Na\xaa\x84 \xa7\x0f\xe4\x08\x1esd\xfc\xe8\x8a\x1e,R\x8c\xf4\xdc\xccO\xf3;\x12\x95\xc8('

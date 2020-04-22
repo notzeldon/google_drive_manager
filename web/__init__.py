@@ -23,9 +23,6 @@ except ImportError:
 
 # args = parser.parse_args()
 
-from oauth2client.tools import argparser
-args = argparser.parse_args()
-args.noauth_local_webserver = True
 
 if __name__ == '__main__':
     def run():
