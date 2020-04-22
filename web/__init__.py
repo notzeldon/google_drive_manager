@@ -23,8 +23,10 @@ except ImportError:
 
 # args = parser.parse_args()
 
-app = await create_app()
 
 if __name__ == '__main__':
-    web.run_app(app, host=os.environ.get('HOST'), port=os.environ.get('PORT'))
+    def run():
+        app = create_app()
+        web.run_app(app, host=os.environ.get('HOST'), port=os.environ.get('PORT'))
 
+    run()
