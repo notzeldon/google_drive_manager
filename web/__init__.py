@@ -24,5 +24,6 @@ except ImportError:
 
 app = create_app()
 
-# web.run_app(app, host='0.0.0.0', port=8080)
+if name == '__main__':
+    web.run_app(app, host='0.0.0.0', port=8080)
 
