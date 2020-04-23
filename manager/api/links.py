@@ -153,7 +153,7 @@ async def links_add(request):
     session = request.app['session']
     tmp_dir = request.app['config'].get('tmp_dir', '.')
 
-    file_id = await get_file_id(data['link'])
+    file_id = get_file_id(data['link'])
     if not file_id:
         return web.json_response(
             status=400,
