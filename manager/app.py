@@ -44,7 +44,7 @@ async def create_app(config=None):
 
 
 async def on_start(app):
-    app['db'] = await asyncpgsa.create_pool(dsn=os.environ.get('DATABASE_URL'), max_size=5)
+    app['db'] = await asyncpgsa.create_pool(dsn=os.environ.get('DATABASE_URL'), min_size=1, max_size=5)
 
 
 async def on_shutdown(app):
