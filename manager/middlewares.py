@@ -1,7 +1,7 @@
 from aiohttp import web
 from aiohttp_session import get_session
 
-from manager.api.links import get_client_id_file
+from manager.api.links import get_client_id_file, SCOPES
 
 
 async def authorize_middleware(app, handler):
@@ -58,7 +58,7 @@ async def google_drive_middleware(app, handler):
 
             flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
                 get_client_id_file(),
-                ['https://www.googleapis.com/auth/drive'])
+                SCOPES)
 
             # Indicate where the API server will redirect the user after the user completes
             # the authorization flow. The redirect URI is required. The value must exactly
