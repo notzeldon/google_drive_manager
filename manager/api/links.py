@@ -29,6 +29,10 @@ def get_gdrive_service(tmp_dir):
     store = file.Storage(os.path.join(tmp_dir, 'storage.json'))
     creds = store.get()
     if not creds or creds.invalid:
+        filename = 'client_id.json'
+        if not os.path.exists(filename):
+            with open(filename, 'w') as f:
+                f.write(os.environ.get('CLIENT_ID_JSON'))
         flow = client.flow_from_clientsecrets('client_id.json', SCOPES)
         creds = tools.run_flow(flow, store)
     return build('drive', 'v3', http=creds.authorize(Http()))
