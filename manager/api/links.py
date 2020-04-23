@@ -35,7 +35,7 @@ def get_client_id_file():
 
 
 
-def get_gdrive_service(request, tmp_dir):
+async def get_gdrive_service(request, tmp_dir):
     # filename = 'storage.json'
     # if not os.path.exists(filename):
     #     open(filename, 'w').close()
@@ -60,13 +60,13 @@ def get_file_id(link: str):
 
 
 async def get_file_meta(request, file_id, tmp_dir):
-    service = get_gdrive_service(request, tmp_dir)
+    service = await get_gdrive_service(request, tmp_dir)
 
     return service.files().get(fileId=file_id).execute()
 
 
 
-async def get_file(file_id, tmp_dir, user_id):
+def get_file(request, file_id, tmp_dir, user_id):
     service = get_gdrive_service(request, tmp_dir)
 
     # Инфа о форматах для экспорта
@@ -153,7 +153,7 @@ async def links_add(request):
     session = request.app['session']
     tmp_dir = request.app['config'].get('tmp_dir', '.')
 
-    file_id = get_file_id(data['link'])
+    file_id = await get_file_id(data['link'])
     if not file_id:
         return web.json_response(
             status=400,
