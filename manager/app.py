@@ -24,7 +24,6 @@ async def create_app(config=None):
 
     secret_key = b'3d\xa9Na\xaa\x84 \xa7\x0f\xe4\x08\x1esd\xfc\xe8\x8a\x1e,R\x8c\xf4\xdc\xccO\xf3;\x12\x95\xc8('
 
-
     app = web.Application(middlewares=[
         session_middleware(EncryptedCookieStorage(secret_key)),
         authorize_middleware,
