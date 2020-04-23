@@ -144,10 +144,6 @@ async def links_add(request):
             data=dict(error='It is not Google Drive file link')
         )
 
-
-
-    return web.json_response(data=dict())
-
     # TODO: Хранить ID и мета данные
     file_meta = await get_file_meta(file_id=file_id, tmp_dir=tmp_dir)
 
