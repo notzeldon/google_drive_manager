@@ -28,7 +28,7 @@ async def oauth2callback(request):
 
     # Specify the state when creating the flow in the callback so that it can
     # verified in the authorization server response.
-    state = request.query.get('state')
+    state = session.get('state')
 
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         get_client_id_file(), scopes=SCOPES, state=state)
@@ -48,34 +48,6 @@ async def oauth2callback(request):
     session['credentials'] = credentials_to_dict(credentials)
 
     raise web.HTTPFound(request.app.router['main'].url_for())
-
-    # state = session['state']
-    # flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-    #     get_client_id_file(),
-    #     scopes=SCOPES,
-    #     state=state)
-    # flow.redirect_uri = 'https://gdt-manager.herokuapp.com/oauth2callback'
-    #
-    # authorization_response = request.url
-    # flow.fetch_token(authorization_response=authorization_response)
-    #
-    # # Store the credentials in the session.
-    # # ACTION ITEM for developers:
-    # #     Store user's access and refresh tokens in your data store if
-    # #     incorporating this code into your real app.
-    # credentials = flow.credentials
-    # session['credentials'] = {
-    #     'token': credentials.token,
-    #     'refresh_token': credentials.refresh_token,
-    #     'token_uri': credentials.token_uri,
-    #     'client_id': credentials.client_id,
-    #     'client_secret': credentials.client_secret,
-    #     'scopes': credentials.scopes
-    # }
-    #
-    # return web.json_response(data=session['credentials'])
-    # return web.HTTPFound('/')
-
 
 
 def credentials_to_dict(credentials):

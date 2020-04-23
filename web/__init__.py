@@ -21,8 +21,6 @@ except ImportError:
 # parser.add_argument('--noauth_local_webserver', action='store_true', help='')
 
 # args = parser.parse_args()
-import os
-os.environ['DEBUG'] = '1'
 
 if __name__ == '__main__':
     def run():
