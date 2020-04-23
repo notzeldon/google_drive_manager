@@ -45,7 +45,10 @@ async def google_drive_middleware(app, handler):
                     return False
             return True
 
-        if 'credentials' not in session and not check_path(request.path):
+        if check_path(request.path):
+            return await handler(request)
+
+        if 'credentials' not in session:
             raise web.HTTPFound(request.app.router['authorize'].url_for())
 
         else:
