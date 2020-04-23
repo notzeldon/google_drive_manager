@@ -1,7 +1,5 @@
 from aiohttp import web
 from aiohttp_jinja2 import template
-from aiohttp_session import get_session
-
 
 @template('index.html')
 async def index(request):

@@ -10,7 +10,7 @@ from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
 import aiohttp_jinja2, jinja2
 
-from .middlewares import authorize_middleware
+from .middlewares import authorize_middleware, google_drive_middleware
 from .routes import setup_routes
 
 
@@ -27,6 +27,7 @@ async def create_app(config=None):
 
     app = web.Application(middlewares=[
         session_middleware(EncryptedCookieStorage(secret_key)),
+        google_drive_middleware,
         authorize_middleware,
     ])
 
