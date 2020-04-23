@@ -4,7 +4,7 @@ from .views import frontend
 
 def setup_routes(app):
 
-    # app.router.add_route('*', '/oauth2callback', gdrive.oauth2callback, name='oauth2callback')
+    app.router.add_route('*', '/oauth2callback', gdrive.oauth2callback, name='oauth2callback')
 
     app.router.add_route('GET', '/', frontend.index, name='main')
     app.router.add_route('GET', '/register', frontend.Register, name="register")
