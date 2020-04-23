@@ -45,7 +45,7 @@ async def google_drive_middleware(app, handler):
                     return False
             return True
 
-        if check_path(request.path):
+        if not check_path(request.path):
             return await handler(request)
 
         if 'credentials' not in session:
