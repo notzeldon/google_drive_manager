@@ -26,7 +26,6 @@ async def create_app(config=None):
         authorize_middleware,
     ])
 
-
     app['config'] = config or dict()
     aiohttp_jinja2.setup(
         app,
