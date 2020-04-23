@@ -9,7 +9,7 @@ async def authorize(request):
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         get_client_id_file(), scopes=SCOPES)
 
-    flow.redirect_uri = request.scheme + request.host + \
+    flow.redirect_uri = request.scheme + '://' + request.host + \
                         str(request.app.router['oauth2callback'].url_for())
 
     authorization_url, state = flow.authorization_url(
@@ -32,7 +32,7 @@ async def oauth2callback(request):
 
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         get_client_id_file(), scopes=SCOPES, state=state)
-    flow.redirect_uri = request.scheme + request.host + \
+    flow.redirect_uri = request.scheme + '://' + request.host + \
                         str(request.app.router['oauth2callback'].url_for())
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
