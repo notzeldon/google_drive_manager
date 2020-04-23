@@ -10,7 +10,8 @@ from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
 import aiohttp_jinja2, jinja2
 
-from .middlewares import authorize_middleware, google_drive_middleware
+from .middlewares import authorize_middleware
+# from .middlewares import google_drive_middleware
 from .routes import setup_routes
 
 
