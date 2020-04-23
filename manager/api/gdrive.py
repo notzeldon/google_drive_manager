@@ -2,14 +2,16 @@ import google_auth_oauthlib
 from aiohttp import web
 from aiohttp_session import get_session
 
+from manager.api.links import get_client_id_file
+
 
 async def oauth2callback(request):
     session = await get_session()
 
     state = session['state']
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        'client_id.json',
-        scopes=['https://www.googleapis.com/auth/drive.metadata.readonly'],
+        get_client_id_file(),
+        scopes=['https://www.googleapis.com/auth/drive'],
         state=state)
     flow.redirect_uri = 'https://gdt-manager.herokuapp.com/oauth2callback'
 

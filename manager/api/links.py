@@ -20,9 +20,18 @@ CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SCOPES = [
     'https://www.googleapis.com/auth/drive',
-    'https://www.googleapis.com/auth/drive.file',
-    'https://www.googleapis.com/auth/drive.metadata',
+    # 'https://www.googleapis.com/auth/drive.file',
+    # 'https://www.googleapis.com/auth/drive.metadata',
 ]
+
+
+def get_client_id_file():
+    filename = 'client_id.json'
+    if not os.path.exists(filename):
+        with open(filename, 'w') as f:
+            f.write(os.environ.get('CLIENT_ID_JSON'))
+    return filename
+
 
 
 def get_gdrive_service(tmp_dir):
@@ -33,11 +42,7 @@ def get_gdrive_service(tmp_dir):
     store = file.Storage(os.path.join(tmp_dir, filename))
     creds = store.get()
     if not creds or creds.invalid:
-        filename = 'client_id.json'
-        if not os.path.exists(filename):
-            with open(filename, 'w') as f:
-                f.write(os.environ.get('CLIENT_ID_JSON'))
-        flow = client.flow_from_clientsecrets('client_id.json', SCOPES)
+        flow = client.flow_from_clientsecrets(get_client_id_file(), SCOPES)
         creds = tools.run_flow(flow, store)
     return build('drive', 'v3', http=creds.authorize(Http()))
 
