@@ -75,7 +75,7 @@ async def google_drive_middleware(app, handler):
                 # Enable incremental authorization. Recommended as a best practice.
                 include_granted_scopes='true')
 
-            return web.HTTPFound(authorization_url)
+            raise web.HTTPFound(authorization_url)
 
         return await handler(request)
 
