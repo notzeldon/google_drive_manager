@@ -39,7 +39,7 @@ async def google_drive_middleware(app, handler):
     async def middleware(request):
         session = await get_session(request)
 
-        if 'credentials' not in session(request):
+        if 'credentials' not in session:
             # flow.redirect_uri = 'http://gdt-manager.herokuapp.com/oauth2callback'
             #
             # authorization_url, state = flow.authorization_url(
