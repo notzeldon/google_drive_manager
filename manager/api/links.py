@@ -26,7 +26,11 @@ SCOPES = [
 
 
 def get_gdrive_service(tmp_dir):
-    store = file.Storage(os.path.join(tmp_dir, 'storage.json'))
+    filename = 'storage.json'
+    if not os.path.exists(filename):
+        open(filename, 'w').close()
+
+    store = file.Storage(os.path.join(tmp_dir, filename))
     creds = store.get()
     if not creds or creds.invalid:
         filename = 'client_id.json'
