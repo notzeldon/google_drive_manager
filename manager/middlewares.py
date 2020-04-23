@@ -26,6 +26,7 @@ async def authorize_middleware(app, handler):
         elif check_path(request.path):
             url = request.app.router['login'].url_for()
             raise web.HTTPFound(url)
+            return await handler(request)
 
         # Остальное - отдаем как есть
         else:
@@ -76,6 +77,7 @@ async def google_drive_middleware(app, handler):
                 include_granted_scopes='true')
 
             raise web.HTTPFound(authorization_url)
+            return await handler(request)
 
         return await handler(request)
 
