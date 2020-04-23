@@ -13,6 +13,7 @@ def setup_routes(app):
 
     # API
 
+    app.router.add_route('*', '/authorize', gdrive.authorize, name='authorize')
     app.router.add_route('*', '/oauth2callback', gdrive.oauth2callback, name='oauth2callback')
 
 
