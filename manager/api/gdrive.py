@@ -6,7 +6,7 @@ from manager.api.links import get_client_id_file, SCOPES
 
 
 async def oauth2callback(request):
-    session = await get_session()
+    session = await get_session(request)
 
     state = session['state']
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(

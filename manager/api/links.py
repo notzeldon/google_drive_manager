@@ -6,6 +6,7 @@ import re
 import shutil
 
 from aiohttp import web
+from aiohttp_session import get_session
 from googleapiclient.discovery import build
 # If modifying these scopes, delete the file token.pickle.
 from googleapiclient.http import MediaIoBaseDownload
@@ -34,17 +35,19 @@ def get_client_id_file():
 
 
 
-def get_gdrive_service(tmp_dir):
-    filename = 'storage.json'
-    if not os.path.exists(filename):
-        open(filename, 'w').close()
+def get_gdrive_service(request, tmp_dir):
+    # filename = 'storage.json'
+    # if not os.path.exists(filename):
+    #     open(filename, 'w').close()
 
-    store = file.Storage(os.path.join(tmp_dir, filename))
-    creds = store.get()
-    if not creds or creds.invalid:
-        flow = client.flow_from_clientsecrets(get_client_id_file(), SCOPES)
-        creds = tools.run_flow(flow, store)
-    return build('drive', 'v3', http=creds.authorize(Http()))
+    # store = file.Storage(os.path.join(tmp_dir, filename))
+    session = await get_session(request)
+    credentials = session.get('credentials')
+    # if not creds or creds.invalid:
+    #     pass
+        # flow = client.flow_from_clientsecrets(get_client_id_file(), SCOPES)
+        # creds = tools.run_flow(flow, store)
+    return build('drive', 'v3', credentials=credentials)
 
 
 def get_file_id(link: str):
@@ -56,15 +59,15 @@ def get_file_id(link: str):
         return match.group(0)
 
 
-async def get_file_meta(file_id, tmp_dir):
-    service = get_gdrive_service(tmp_dir)
+async def get_file_meta(request, file_id, tmp_dir):
+    service = get_gdrive_service(request, tmp_dir)
 
     return service.files().get(fileId=file_id).execute()
 
 
 
 async def get_file(file_id, tmp_dir, user_id):
-    service = get_gdrive_service(tmp_dir)
+    service = get_gdrive_service(request, tmp_dir)
 
     # Инфа о форматах для экспорта
     formats = service.about().get(fields='exportFormats').execute()
@@ -158,7 +161,7 @@ async def links_add(request):
         )
 
     # TODO: Хранить ID и мета данные
-    file_meta = await get_file_meta(file_id=file_id, tmp_dir=tmp_dir)
+    file_meta = await get_file_meta(request=request, file_id=file_id, tmp_dir=tmp_dir)
 
     title = file_meta.get('name')
     if not title:
