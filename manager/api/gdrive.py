@@ -32,4 +32,5 @@ async def oauth2callback(request):
         'scopes': credentials.scopes
     }
 
+    return web.json_response(data=session['credentials'])
     return web.HTTPFound('/')
