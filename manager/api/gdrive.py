@@ -38,7 +38,8 @@ async def oauth2callback(request):
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = str(request.url)[len(request.scheme) + 3:]
 
-    flow.fetch_token(authorization_response=authorization_response)
+    # flow.fetch_token(authorization_response=authorization_response)
+    flow.fetch_token(code=request.query.get('code'))
 
     # Store credentials in the session.
     # ACTION ITEM: In a production app, you likely want to save these
