@@ -22,7 +22,7 @@ async def create_app(config=None):
 
     app = web.Application(middlewares=[
         session_middleware(EncryptedCookieStorage(secret_key)),
-        google_drive_middleware,
+        # google_drive_middleware,
         authorize_middleware,
     ])
 
