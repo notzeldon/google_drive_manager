@@ -154,6 +154,13 @@ async def links_add(request):
             data=dict(error='Cannot get file name'),
         )
 
+    return web.json_response(data=dict(
+
+        title=title,
+        file_id=file_id,
+        user_id=session['user'],
+    ))
+
     async with request.app['db'].acquire() as conn:
         query = db.links.insert().values(
             title=title,
