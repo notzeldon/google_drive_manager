@@ -28,7 +28,7 @@ async def oauth2callback(request):
 
     # Specify the state when creating the flow in the callback so that it can
     # verified in the authorization server response.
-    state = session['state']
+    state = request.query.get('state')
 
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         get_client_id_file(), scopes=SCOPES, state=state)
