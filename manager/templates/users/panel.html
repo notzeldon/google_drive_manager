@@ -19,7 +19,7 @@
     <hr>
 
     <h2>
-        Your links
+        Your links, {% if user %}User #{{ user }}{% else %}Anonim{% endif %}
     </h2>
 
     You can also <button class="btn btn-primary btn-add-link" type="button" data-toggle="modal" data-target="#add-link-modal">add new link</button>
