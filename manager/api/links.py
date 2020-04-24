@@ -43,6 +43,7 @@ async def get_gdrive_service(request, tmp_dir):
     # store = file.Storage(os.path.join(tmp_dir, filename))
     session = await get_session(request)
     credentials = session.get('credentials')
+    client.flow_from_clientsecrets
     # if not creds or creds.invalid:
     #     pass
         # flow = client.flow_from_clientsecrets(get_client_id_file(), SCOPES)

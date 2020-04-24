@@ -47,6 +47,8 @@ async def oauth2callback(request):
     credentials = flow.credentials
     session['credentials'] = credentials_to_dict(credentials)
 
+    return web.json_response(data=session['credentials'])
+
     raise web.HTTPFound(request.app.router['main'].url_for())
 
 
