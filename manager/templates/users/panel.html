@@ -198,6 +198,9 @@
                         });
                     }
                 }
+                else if (btn.hasClass('btn-paginate')) {
+                    updateLinks(e.target.dataset.href);
+                }
             });
 
             function updateLinks(link) {
@@ -209,10 +212,10 @@
 
                     var paginator = '';
                     if (data.prev) {
-                        paginator += '<button class="btn btn-primary" data-href="' + data.prev + '">Previous page</button>'
+                        paginator += '<button class="btn btn-primary btn-paginate" data-href="' + data.prev + '">Previous page</button>'
                     }
-                    if (data.next) {
-                        paginator += '<button class="btn btn-primary" data-href="' + data['next'] + '">NExt page</button>'
+                    if (data['next']) {
+                        paginator += '<button class="btn btn-primary btn-paginate" data-href="' + data['next'] + '">Next page</button>'
                     }
 
                     content = '';
