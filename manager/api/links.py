@@ -36,19 +36,22 @@ def get_client_id_file():
 
 
 async def get_gdrive_service(request, tmp_dir):
+    import google.oauth2.credentials
     # filename = 'storage.json'
     # if not os.path.exists(filename):
     #     open(filename, 'w').close()
 
     # store = file.Storage(os.path.join(tmp_dir, filename))
     session = await get_session(request)
-    credentials = session.get('credentials')
-    c = client.OAuth2WebServerFlow(**credentials)
+    creds = session.get('credentials')
+    creds = credentials.Credentials(
+        **creds)
+
     # if not creds or creds.invalid:
     #     pass
         # flow = client.flow_from_clientsecrets(get_client_id_file(), SCOPES)
         # creds = tools.run_flow(flow, store)
-    return build('drive', 'v3', credentials=c)
+    return build('drive', 'v3', credentials=creds)
 
 
 def get_file_id(link: str):
