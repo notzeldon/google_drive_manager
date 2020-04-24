@@ -71,8 +71,8 @@ async def get_file_meta(request, file_id, tmp_dir):
 
 
 
-def get_file(request, file_id, tmp_dir, user_id):
-    service = get_gdrive_service(request, tmp_dir)
+async def get_file(request, file_id, tmp_dir, user_id):
+    service = await get_gdrive_service(request, tmp_dir)
 
     # Инфа о форматах для экспорта
     formats = service.about().get(fields='exportFormats').execute()
@@ -249,7 +249,7 @@ async def links_download(request):
     res_list = []
 
     for file_id in files_ids:
-        res = get_file(request, file_id, tmp_dir, session.get('user'))
+        res = await get_file(request, file_id, tmp_dir, session.get('user'))
         res_list.append(res)
 
     if len(res_list) == 1:
