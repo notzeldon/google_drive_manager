@@ -22,6 +22,8 @@ except ImportError:
 
 # args = parser.parse_args()
 
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
 if __name__ == '__main__':
     def run():
         app = create_app()
