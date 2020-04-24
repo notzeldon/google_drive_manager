@@ -255,7 +255,7 @@ async def links_download(request):
     if len(res_list) == 1:
         file_name = res_list[0][0]
     else:
-        file_name = os.path.join(tmp_dir, f'files_{session.get("user")}.zip')
+        file_name = os.path.join(tmp_dir, f'files_{session.get("user")}')
         shutil.make_archive(file_name, 'zip', os.path.join(tmp_dir, str(session.get('user'))))
         file_name += '.zip'
 
