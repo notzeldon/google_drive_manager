@@ -108,7 +108,7 @@ async def links_list(request):
     data = request.query
     session = request.app['session']
 
-    paginate_by = 'paginate_by' in data and data['paginate_by'].isdigit() and int(data['paginate_by']) or 50
+    paginate_by = 'paginate_by' in data and data['paginate_by'].isdigit() and int(data['paginate_by']) or 10
     page = 'p' in data and data['p'].isdigit() and int(data['p']) or 0
 
     async with request.app['db'].acquire() as conn:
