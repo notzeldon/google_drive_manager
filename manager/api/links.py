@@ -44,7 +44,7 @@ async def get_gdrive_service(request, tmp_dir):
     # store = file.Storage(os.path.join(tmp_dir, filename))
     session = await get_session(request)
     creds = session.get('credentials')
-    creds = credentials.Credentials(
+    creds = google.oauth2.credentials.Credentials(
         **creds)
 
     # if not creds or creds.invalid:
