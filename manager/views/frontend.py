@@ -1,5 +1,7 @@
 from aiohttp import web
 from aiohttp_jinja2 import template
+from aiohttp_session import get_session
+
 
 @template('index.html')
 async def index(request):
@@ -10,7 +12,8 @@ class Register(web.View):
 
     @template('users/register.html')
     async def get(self):
-        return {}
+        session = await get_session(self.request)
+        return {user: session.get('user')}
 
 
 class Login(web.View):
