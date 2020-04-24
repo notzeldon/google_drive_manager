@@ -249,7 +249,7 @@ async def links_download(request):
     res_list = []
 
     for file_id in files_ids:
-        res = await get_file(request, file_id, tmp_dir, session.get('user'))
+        res = get_file(request, file_id, tmp_dir, session.get('user'))
         res_list.append(res)
 
     if len(res_list) == 1:
