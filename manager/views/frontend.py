@@ -12,8 +12,7 @@ class Register(web.View):
 
     @template('users/register.html')
     async def get(self):
-        session = await get_session(self.request)
-        return {user: session.get('user')}
+        return {}
 
 
 class Login(web.View):
@@ -41,4 +40,5 @@ class UserPanel(web.View):
 
     @template('users/panel.html')
     async def get(self):
-        return {}
+        session = await get_session(self.request)
+        return {'user': session.get('user')}
